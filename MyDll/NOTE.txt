@@ -1,0 +1,3 @@
+When batch build Mydll which contains opencv x64:
++ in release mode, we must include opencv_world470.lib, build batch with x64 system in release mode
++ in debug mode, we must include opencv_world470.lib, build batch with x64 system in debug mode

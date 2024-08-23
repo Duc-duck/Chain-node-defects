@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="20.11.3.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_set_draw('margin')</l>
+<l>*dev_set_color('medium slate blue')</l>
+<l>dev_set_line_width (3)</l>
+<l>dev_close_window()</l>
+<l>Row0:= 200</l>
+<l>Column0:=200</l>
+<l>Length1:=0</l>
+<l>Length2:=0</l>
+<l>phi:=0</l>
+<l>Save_to:=''</l>
+<l>Model_file:=0</l>
+<l>min_score:=0</l>
+<l>Radius:=0</l>
+<l>row_cls:=6</l>
+<l>col_cls:=30</l>
+<l>row_ero:=90</l>
+<l>col_ero:=6</l>
+<l>phi:=90</l>
+<l>Length1:=200</l>
+<l>Length2:=200</l>
+<l>read_image(Image,'C:/Users/Dell/Desktop/DongBoChain/OK/Image__2023-04-19__14-54-03.bmp')</l>
+<c></c>
+<l>Get_Shape (Image, Row0, Column0, phi, Length1, Length2, Save_to, ModeID)</l>
+<c></c>
+<l>Get_Shape_Circle (Image, Row0, Column0, Radius, Save_to, ModelID)</l>
+<c></c>
+<l>Find_Shape (Image, Model_file, min_score, num_matches)</l>
+<c></c>
+<l>Chain_node_area_1 (Image, ImageMin, row_cls, col_cls, row_ero, col_ero, Row0, Column0, Length1, Length2, Chain_area)</l>
+<c></c>
+<l>Chain_node_area_2 (Image, ImageMin1, row_cls, col_cls, row_ero, col_ero,\
+                   Row0, Column0, phi, Length1, Length2, Chain_area)</l>
+<c></c>
+<l>Roller_process (Image, ImageMin, row_ero, col_ero, row_cls, col_cls)</l>
+<c></c>
+<l>Find_Shape_Roller (Image, Model_file, row_ero, col_ero, row_cls, col_cls, min_score, Num_matches)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="Get_Shape">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Row0" base_type="ctrl" dimension="0"/>
+<par name="Column0" base_type="ctrl" dimension="0"/>
+<par name="phi" base_type="ctrl" dimension="0"/>
+<par name="Length1" base_type="ctrl" dimension="0"/>
+<par name="Length2" base_type="ctrl" dimension="0"/>
+<par name="Save_to" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ModeID" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>invert_image(Image,ImageInvert)</l>
+<l>*gray_opening_rect (ImageInvert, ImageClosing, 3, 3)</l>
+<c>*Create templete for matching</c>
+<l>gen_rectangle2 (ROI_0, Row0, Column0, phi, Length1, Length2)</l>
+<l>reduce_domain (ImageInvert, ROI_0, ImageReduced)</l>
+<l>create_shape_model(ImageReduced, 'auto', 0, rad(360), 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<l>write_shape_model(ModelID,Save_to)</l>
+<l>return ()</l>
+</body>
+<docu id="Get_Shape">
+<parameters>
+<parameter id="Column0"/>
+<parameter id="Image"/>
+<parameter id="Length1"/>
+<parameter id="Length2"/>
+<parameter id="ModeID"/>
+<parameter id="Row0"/>
+<parameter id="Save_to"/>
+<parameter id="phi"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Find_Shape">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Model_file" base_type="ctrl" dimension="0"/>
+<par name="min_score" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="num_matches" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>read_shape_model (Model_file, ReuseModelID)</l>
+<c>*NumLevels parameter should be noticed</c>
+<l>invert_image (Image, Image)</l>
+<l>find_shape_model (Image, ReuseModelID, 0, rad(360), min_score, 0, 0.5, 'interpolation', 3, 0.9, Row, Column, Angle, Score)</l>
+<l>num_matches:=|Score|</l>
+<l>return ()</l>
+</body>
+<docu id="Find_Shape">
+<parameters>
+<parameter id="Image"/>
+<parameter id="Model_file"/>
+<parameter id="min_score"/>
+<parameter id="num_matches"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Get_Shape_Circle">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Row0" base_type="ctrl" dimension="0"/>
+<par name="Column0" base_type="ctrl" dimension="0"/>
+<par name="Radius" base_type="ctrl" dimension="0"/>
+<par name="Save_to" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>invert_image(Image,ImageInvert)</l>
+<l>*gray_opening_rect (ImageInvert, ImageClosing, 3, 3)</l>
+<c>*Create templete for matching</c>
+<l>gen_circle (ROI_0, Row0, Column0, Radius)</l>
+<l>reduce_domain (ImageInvert, ROI_0, ImageReduced)</l>
+<l>create_shape_model(ImageReduced, 'auto', 0, rad(360), 'auto', 'auto', 'ignore_color_polarity', 'auto', 'auto', ModelID)</l>
+<l>write_shape_model(ModelID,Save_to)</l>
+<l>return ()</l>
+</body>
+<docu id="Get_Shape_Circle">
+<parameters>
+<parameter id="Column0"/>
+<parameter id="Image"/>
+<parameter id="ModelID"/>
+<parameter id="Radius"/>
+<parameter id="Row0"/>
+<parameter id="Save_to"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Chain_node_area_1">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageMin" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="row_cls" base_type="ctrl" dimension="0"/>
+<par name="col_cls" base_type="ctrl" dimension="0"/>
+<par name="row_ero" base_type="ctrl" dimension="0"/>
+<par name="col_ero" base_type="ctrl" dimension="0"/>
+<par name="Row0" base_type="ctrl" dimension="0"/>
+<par name="Column0" base_type="ctrl" dimension="0"/>
+<par name="Length1" base_type="ctrl" dimension="0"/>
+<par name="Length2" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Chain_area" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>*Xích dày</c>
+<l>gen_rectangle2 (ROI_0, Row0, Column0, rad(90), Length1, Length2)</l>
+<l>reduce_domain(Image, ROI_0, ImageReduced1)</l>
+<l>invert_image (ImageReduced1, ImageInvert)</l>
+<l>gray_dilation_rect (ImageInvert, ImageClosing, row_cls, col_cls)</l>
+<l>gray_erosion_rect (ImageClosing, ImageClosing1, row_cls, col_cls)</l>
+<c></c>
+<l>gray_erosion_rect(ImageClosing1, ImageMin1, col_ero, row_ero*2)</l>
+<l>gray_dilation_rect(ImageMin1, ImageMin2, col_ero, row_ero*2)</l>
+<c></c>
+<l>gray_erosion_rect (ImageMin2, ImageMin, row_ero, col_ero)</l>
+<c></c>
+<l>threshold (ImageMin, Regions1, 158, 255)</l>
+<l>region_features (Regions1, 'area', Value1)</l>
+<l>Chain_area:=Value1[0]</l>
+<l>return () </l>
+</body>
+<docu id="Chain_node_area_1">
+<parameters>
+<parameter id="Chain_area"/>
+<parameter id="Column0"/>
+<parameter id="Image"/>
+<parameter id="ImageMin"/>
+<parameter id="Length1"/>
+<parameter id="Length2"/>
+<parameter id="Row0"/>
+<parameter id="col_cls"/>
+<parameter id="col_ero"/>
+<parameter id="row_cls"/>
+<parameter id="row_ero"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Chain_node_area_2">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageMin" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="row_cls" base_type="ctrl" dimension="0"/>
+<par name="col_cls" base_type="ctrl" dimension="0"/>
+<par name="row_ero" base_type="ctrl" dimension="0"/>
+<par name="col_ero" base_type="ctrl" dimension="0"/>
+<par name="Row0" base_type="ctrl" dimension="0"/>
+<par name="Column0" base_type="ctrl" dimension="0"/>
+<par name="phi" base_type="ctrl" dimension="0"/>
+<par name="Length1" base_type="ctrl" dimension="0"/>
+<par name="Length2" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Chain_area" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>*Xích mỏng</c>
+<l>invert_image (Image, ImageInvert)</l>
+<l>gray_dilation_rect (ImageInvert, ImageClosing, row_cls, col_cls)</l>
+<l>gray_erosion_rect (ImageClosing, ImageMin, row_ero, col_ero)</l>
+<l>gen_rectangle2 (ROI_0, Row0, Column0, phi, Length1, Length2)</l>
+<l>reduce_domain(ImageMin, ROI_0, ImageReduced1)</l>
+<l>threshold (ImageReduced1, Regions1, 158, 255)</l>
+<l>region_features (Regions1, 'area', Value1)</l>
+<l>Chain_area:=Value1[0]</l>
+<l>return ()</l>
+</body>
+<docu id="Chain_node_area_2">
+<parameters>
+<parameter id="Chain_area"/>
+<parameter id="Column0"/>
+<parameter id="Image"/>
+<parameter id="ImageMin"/>
+<parameter id="Length1"/>
+<parameter id="Length2"/>
+<parameter id="Row0"/>
+<parameter id="col_cls"/>
+<parameter id="col_ero"/>
+<parameter id="phi"/>
+<parameter id="row_cls"/>
+<parameter id="row_ero"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Roller_process">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageMin" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="row_ero" base_type="ctrl" dimension="0"/>
+<par name="col_ero" base_type="ctrl" dimension="0"/>
+<par name="row_cls" base_type="ctrl" dimension="0"/>
+<par name="col_cls" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>invert_image(Image,ImageInvert)</l>
+<l>gray_erosion_rect(ImageInvert,ImageEro,row_ero,col_ero)</l>
+<l>gray_dilation_rect(ImageEro,ImageMin,row_cls,col_cls)</l>
+<l>return ()</l>
+</body>
+<docu id="Roller_process">
+<parameters>
+<parameter id="Image"/>
+<parameter id="ImageMin"/>
+<parameter id="col_cls"/>
+<parameter id="col_ero"/>
+<parameter id="row_cls"/>
+<parameter id="row_ero"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Find_Shape_Roller">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="Model_file" base_type="ctrl" dimension="0"/>
+<par name="row_ero" base_type="ctrl" dimension="0"/>
+<par name="col_ero" base_type="ctrl" dimension="0"/>
+<par name="row_cls" base_type="ctrl" dimension="0"/>
+<par name="col_cls" base_type="ctrl" dimension="0"/>
+<par name="min_score" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Num_matches" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>read_shape_model(Model_file, ModelID)</l>
+<l>invert_image(Image,ImageInvert)</l>
+<l>gray_erosion_rect(ImageInvert,ImageEro,row_ero,col_ero)</l>
+<l>gray_dilation_rect(ImageEro,ImageMin,row_cls,col_cls)</l>
+<l>find_shape_model(ImageMin,ModelID,0,rad(360),min_score,0,0.5,['least_squares','max_deformation 2'],\
+                 0,0.9,Row, Column, Angle, Score)</l>
+<l>Num_matches:=|Score|</l>
+<l>return ()</l>
+</body>
+<docu id="Find_Shape_Roller">
+<parameters>
+<parameter id="Image"/>
+<parameter id="Model_file"/>
+<parameter id="Num_matches"/>
+<parameter id="col_cls"/>
+<parameter id="col_ero"/>
+<parameter id="min_score"/>
+<parameter id="row_cls"/>
+<parameter id="row_ero"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

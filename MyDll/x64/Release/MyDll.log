@@ -1,0 +1,36 @@
+﻿  pch.cpp
+  dllmain.cpp
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(10,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(19,53): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(19,35): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(25,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(26,50): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(41,53): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(41,35): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(75,56): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Desktop\DongBoChain_1_Cameras_Cpp\MyDll\dllmain.cpp(76,45): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Source_OpenCV.cpp
+     Creating library D:\Desktop\DongBoChain_1_Cameras_Cpp\x64\Release\MyDll.lib and object D:\Desktop\DongBoChain_1_Cameras_Cpp\x64\Release\MyDll.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 58 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  MyDll.vcxproj -> D:\Desktop\DongBoChain_1_Cameras_Cpp\x64\Release\MyDll.dll
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
